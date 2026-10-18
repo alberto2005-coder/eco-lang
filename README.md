@@ -4,7 +4,11 @@
 (lexer → parser → evaluador), su **IDE de escritorio**, su **CLI `eco`** y su
 **instalador**. Las palabras clave son **en español**: ese es el sello.
 
-**Código y documentación:** <https://github.com/alberto2005-coder/eco-lang>
+**Código y documentación:** <https://github.com/alberto2005-coder/eco-lang> ·
+**Descarga:** [`eco-setup.exe` (v0.4.0)](https://github.com/alberto2005-coder/eco-lang/releases/latest)
+
+[![Release](https://img.shields.io/github/v/release/alberto2005-coder/eco-lang?label=eco)](https://github.com/alberto2005-coder/eco-lang/releases/latest)
+[![Licencia](https://img.shields.io/badge/licencia-MIT%20con%20adenda-7aa2ff)](LICENSE)
 
 ```text
 hola.eco                           →  eco  (o F5 en el IDE)
@@ -48,8 +52,10 @@ Está en [`docs/`](docs/README.md), con el detalle que este README resume:
 
 Todo está compilado: **no necesitas Python**.
 
-1. Ejecuta **`dist\eco-setup.exe`** (no pide administrador).
-2. Abre una terminal **nueva**:
+1. Descarga **[`eco-setup.exe`](https://github.com/alberto2005-coder/eco-lang/releases/latest)**
+   desde el release (o usa `dist\eco-setup.exe` si lo compilaste tú).
+2. Ejecútalo (no pide administrador).
+3. Abre una terminal **nueva**:
 
 ```bash
 eco --version                 # 0.4.0

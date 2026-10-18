@@ -15,12 +15,15 @@ Tres formas de usar eco. Para **programar** basta la primera.
 **Requisitos:** Windows 10/11 de 64 bits. No hace falta Python ni ser
 administrador.
 
-1. Ejecuta **`dist\eco-setup.exe`**.
-2. En *Opcionales* puedes marcar (viene marcado lo indicado):
+1. Descarga **`eco-setup.exe`** desde
+   <https://github.com/alberto2005-coder/eco-lang/releases/latest> (si lo
+   compilaste tú, está en `dist\`).
+2. Ejecuta el instalador.
+3. En *Opcionales* puedes marcar (viene marcado lo indicado):
    - **Acceso directo en el escritorio**
    - **Añadir eco al PATH** → poder escribir `eco` en cualquier terminal (si la dejas sin marcar, no se toca el PATH)
    - **Asociar los archivos .eco con el IDE** → doble clic para abrirlos
-3. Al terminar puedes abrir el IDE directamente.
+4. Al terminar puedes abrir el IDE directamente.
 
 Desinstalación: *Menú Inicio → eco → Desinstalar eco* (borra el programa, la
 entrada del PATH, los accesos directos y la asociación de `.eco`).
