@@ -1,0 +1,31 @@
+// Diccionarios: pares "clave": valor (como un objeto tuyo)
+
+variable persona = {
+    nombre: "Ana",
+    edad: 30,
+    idiomas: ["es", "en"]
+};
+
+escribe persona;
+escribe persona["nombre"];
+escribe "${persona['nombre']} tiene ${persona['edad']} años";   // comillas simples dentro
+
+// crear o cambiar una clave
+persona["pais"] = "España";
+escribe persona;
+escribe "tiene ${longitud(persona)} claves";
+
+// recorrer las claves con para ... en
+para (k en persona) {
+    escribe "  ${k} = ${texto(persona[k])}";
+}
+
+// claves() y valores() devuelven listas
+escribe claves(persona);
+escribe valores(persona);
+
+// anidados
+variable config = {tema: {color: "oscuro", letra: 12}};
+escribe config["tema"]["color"];
+config["tema"]["letra"] = 14;
+escribe config;

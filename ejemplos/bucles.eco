@@ -1,0 +1,29 @@
+// Bucles: mientras, para, romper y continuar
+
+// 1) mientras
+variable i = 0;
+mientras (i < 5) {
+    escribe i;
+    i = i + 1;
+}
+
+// 2) para clásico (inicialización ; condición ; paso)
+variable suma = 0;
+para (variable n = 0; n < 10; n = n + 1) {
+    si (n % 2 == 0) { continuar; }   // salta los pares
+    suma = suma + n;
+}
+escribe "suma de impares: ${suma}";
+
+// 3) para ... en (recorrer una lista)
+para (x en [10, 20, 30]) {
+    escribe "elemento ${x}";
+}
+
+// 4) romper
+variable c = 0;
+para (variable k = 0; ; k = k + 1) {
+    si (k >= 3) { romper; }
+    c = c + 1;
+}
+escribe "contador: ${c}";

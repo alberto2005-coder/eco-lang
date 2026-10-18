@@ -1,0 +1,32 @@
+// Módulos: importar "ruta" [como alias];
+//
+//   · la ruta es relativa al fichero que hace el import
+//   · se puede importar con y sin ".eco"
+//   · "como alias" da otro nombre al mismo módulo
+//   · el módulo se ejecuta UNA sola vez aunque lo importen dos programas
+//
+// Ficheros:
+//   ejemplos/importar.eco            (este)
+//   ejemplos/modulos/utilidades.eco   (el módulo, en subcarpeta)
+
+importar "modulos/utilidades";          // sin extensión
+importar "modulos/utilidades.eco" como u2;   // con extensión y alias
+
+// lo importado es un diccionario: claves con punto, listas, etc.
+escribe "saludo:      ${utilidades.saludo}";
+escribe "PI:          ${utilidades.PI}";
+escribe "claves:      ${texto(utilidades.claves())}";
+
+// funciones del módulo
+escribe "doble(21):   ${utilidades.doble(21)}";
+escribe "suma(20, 22): ${utilidades.suma(20, 22)}";
+escribe "formateado:  ${utilidades.formatear_euros(4.5678)}";
+escribe "mayúsculas:  ${utilidades.mayusculas('eco')}";
+
+// el alias apunta al MISMO módulo (no se vuelve a ejecutar)
+escribe "con alias:   ${u2.doble(3)}";
+escribe "es el mismo: ${texto(utilidades.PI == u2.PI)}";
+
+// y se puede usar como cualquier otro diccionario
+variable resumen = { modulo: "utilidades", version: utilidades.VERSION_UTIL };
+escribe "resumen:     ${texto(resumen)}";

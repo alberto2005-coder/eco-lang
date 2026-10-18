@@ -1,0 +1,32 @@
+// Listas: literales, índice, longitud, rango y recorridos
+
+variable notas = [7, 8.5, 6, 9.5];
+escribe "notas: ${notas}";
+escribe "primera: ${notas[0]}";
+escribe "total: ${longitud(notas)}";
+
+// recorrer con para ... en
+variable suma = 0;
+para (n en notas) {
+    suma = suma + n;
+}
+escribe "media: ${suma / longitud(notas)}";
+
+// rango genera números
+escribe rango(5);
+escribe rango(2, 8);
+escribe rango(0, 10, 3);
+
+// construir una lista
+variable pares = [];
+para (variable i = 0; i < 8; i = i + 1) {
+    si (i % 2 == 0) {
+        agregar(pares, i);
+    }
+}
+escribe "pares: ${pares}";
+
+// asignar por índice
+variable l = ["a", "b", "c"];
+l[1] = "X";
+escribe l;

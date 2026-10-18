@@ -1,0 +1,35 @@
+// Funciones: definición, parámetros, devolución y recursión
+
+funcion doble(n) {
+    devuelve n * 2;
+}
+
+funcion suma(a, b) {
+    devuelve a + b;
+}
+
+// recursión clásica
+funcion fib(n) {
+    si (n < 2) {
+        devuelve n;
+    }
+    devuelve fib(n - 1) + fib(n - 2);
+}
+
+funcion factorial(n) {
+    si (n <= 1) {
+        devuelve 1;
+    }
+    devuelve n * factorial(n - 1);
+}
+
+escribe doble(21);
+escribe suma(20, 22);
+escribe "fib(10) = ${fib(10)}";
+escribe "factorial(6) = ${factorial(6)}";
+
+// función sin devolución -> devuelve nulo
+funcion aviso() {
+    escribe "esto es un efecto, no un valor";
+}
+escribe aviso();

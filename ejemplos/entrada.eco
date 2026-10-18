@@ -1,0 +1,12 @@
+// entrada(): leer datos por teclado
+// En la terminal se escribe en la consola; en el IDE se abre un diálogo.
+
+variable nombre = entrada("¿Cómo te llamas? ");
+escribe "Hola, ${nombre}, bienvenido a eco.";
+
+variable edad = numero(entrada("¿Qué edad tienes? "));
+escribe "En 10 años tendrás ${edad + 10}.";
+
+variable animal = entrada("¿Qué animal te gusta? ");
+escribe "Tu animal favorito es: ${animal}";
+escribe tipo(animal);

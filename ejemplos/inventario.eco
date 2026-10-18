@@ -1,0 +1,100 @@
+// Inventario de una tiendita — el ejemplo más completo de eco en un solo programa
+//
+//   · si y mientras SIN paréntesis        · contadores  i++  e  i--
+//   · métodos encadenables de texto, lista, número y diccionario
+//   · claves con punto:  producto.precio
+//   · rango(a, b, paso) y  interpolación ${...} con métodos dentro
+//
+// Ejecútalo con:   eco ejemplos\inventario.eco     (o F5 en el IDE)
+
+funcion euro(n) {
+    devuelve "${n.redondear(2)} €";
+}
+
+funcion valor_de(producto) {
+    devuelve producto.precio * producto.stock;
+}
+
+variable productos = [
+    {nombre: "café", precio: 4.5, stock: 12},
+    {nombre: "té verde", precio: 3.25, stock: 30},
+    {nombre: "tarta de manzana", precio: 12.9, stock: 4},
+    {nombre: "zumo de naranja", precio: 2.1, stock: 0}
+];
+
+escribe "INVENTARIO (${longitud(productos)} productos)";
+escribe "——————————————————————————————————————————";
+
+// ---------------------------------------------------------- recorrer
+// `para ... en` + claves con punto + `si` sin paréntesis
+variable valor_total = 0;
+para (p en productos) {
+    valor_total = valor_total + valor_de(p);
+    si p.stock == 0 {
+        escribe "  AGOTADO  ${p.nombre.mayusculas()}";
+    } sino si p.stock < 10 {
+        escribe "  pocas    ${p.nombre.mayusculas()} — ${p.stock} uds · ${euro(valor_de(p))}";
+    } sino {
+        escribe "  bien     ${p.nombre.mayusculas()} — ${p.stock} uds · ${euro(valor_de(p))}";
+    }
+}
+
+escribe "";
+escribe "valor del almacén: ${euro(valor_total)}";
+
+// ------------------------------------------------- métodos de lista
+// se pueden encadenar y modifican la lista en el sitio
+variable nombres = [];
+para (p en productos) {
+    nombres.agregar(p.nombre);
+}
+nombres.ordenar();
+escribe "ordenados:     ${texto(nombres)}";
+escribe "primero/último: ${nombres.primero()} y ${nombres.ultimo()}";
+escribe "¿está el té?   ${texto(nombres.contiene('té verde'))}";
+
+// ------------------------------------------------- métodos de texto
+variable aviso = "   ¡bienvenido a eco 0.4.0!   ";
+escribe "recortado y en mayúsculas: ${aviso.recortar().mayusculas()}";
+
+variable frase = "eco hace cosas bonitas";
+// dentro de ${...} se usan comillas simples si la frase va entre " "
+escribe "por partes:                ${texto(frase.partir(' '))}";
+escribe "con 'cosas':               ${texto(frase.contiene('cosas'))}";
+escribe "reemplazado:               ${frase.reemplazar('cosas', 'montañas')}";
+
+// ------------------------------------------------- números y rango
+escribe "redondear 4.567 a 2: ${(4.567).redondear(2)}";
+escribe "piso/techo de 4.5:   ${(4.5).piso()} / ${(4.5).techo()}";
+escribe "absoluto de -8:      ${(-8).absoluto()}";
+
+variable pares = [];
+para (n en rango(0, 10, 2)) {
+    pares.agregar(n);
+}
+escribe "rango(0, 10, 2):     ${texto(pares)}";
+
+// -------------------------------------------- contadores y bucles
+// `i++`, `i--` y `mientras` sin paréntesis
+variable reintentos = 0;
+para (variable i = 0; i < 3; i++) {
+    reintentos++;
+}
+escribe "reintentos hechos:   ${reintentos}";
+
+variable espera = 5;
+mientras espera > 0 {
+    espera--;
+}
+escribe "cuenta atrás:        ${espera}";
+
+// ------------------------------------------------- diccionarios
+variable tienda = {nombre: "eco shop"};
+tienda.ciudad = "Madrid";
+tienda.horario = "10:00 a 14:00";
+
+variable tiene_ciudad = tienda.tiene("ciudad");
+variable con_envios = tienda.fusionar({envios: "gratis"});
+escribe "la tienda:           ${tienda.nombre} (${tienda.ciudad})";
+escribe "claves:              ${texto(tienda.claves())} · tiene ciudad: ${texto(tiene_ciudad)}";
+escribe "fusionado:           ${texto(con_envios)}";

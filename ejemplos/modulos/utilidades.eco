@@ -1,0 +1,28 @@
+// Módulo de ejemplo: funciones y constantes reutilizables.
+//
+// Este fichero NO aparece en la lista de ejemplos del IDE porque está en una
+// subcarpeta: solo se usa con   importar "modulos/utilidades";
+// Se ejecuta una sola vez, aunque lo importen varios programas.
+
+const PI = 3.14159;
+const VERSION_UTIL = "1.0";
+
+// texto que se comparte con quien importa
+variable saludo = "hola desde el módulo";
+
+// funciones exportadas
+funcion doble(n) {
+    devuelve n * 2;
+}
+
+funcion suma(a, b) {
+    devuelve a + b;
+}
+
+funcion formatear_euros(n) {
+    devuelve "${n.redondear(2)} €";
+}
+
+funcion mayusculas(t) {
+    devuelve t.mayusculas();
+}

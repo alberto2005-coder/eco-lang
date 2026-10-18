@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>eco · IDE</title>
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#11151f; --panel2:#151a26; --line:#232a3a;
+    --fg:#dbe4f0; --dim:#7d8aa3; --accent:#7aa2ff; --ok:#4ade80;
+    --bad:#ff6b6b; --kw:#c792ea; --str:#8be9a8; --num:#ffc66d;
+    --com:#5b6578; --op:#89ddff; --id:#dbe4f0;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font:14px/1.5 "Segoe UI",system-ui,sans-serif;
+    display:flex; flex-direction:column;
+  }
+
+  /* ---------------- cabecera ---------------- */
+  header{
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    padding:10px 16px; background:var(--panel); border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex; align-items:center; gap:9px; font-weight:600; letter-spacing:.3px}
+  .logo{
+    width:26px; height:26px; border-radius:7px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--accent),#b06bff); color:#0b0e14; font-weight:800;
+  }
+  .brand small{color:var(--dim); font-weight:400; margin-left:4px}
+  .spacer{flex:1}
+  button,select,.file-btn{
+    font:inherit; color:var(--fg); background:var(--panel2);
+    border:1px solid var(--line); border-radius:8px; padding:7px 12px; cursor:pointer;
+  }
+  button:hover,select:hover,.file-btn:hover{border-color:var(--accent)}
+  .run{
+    background:var(--accent); border-color:var(--accent); color:#08101f;
+    font-weight:700; padding:7px 18px;
+  }
+  .run:hover{filter:brightness(1.1)}
+  .kbd{font-size:11px; color:#08101f; opacity:.7; margin-left:6px}
+  .chip{
+    font-size:12px; color:var(--dim); background:var(--panel2);
+    border:1px solid var(--line); border-radius:999px; padding:4px 11px;
+  }
+  .chip b{color:var(--ok); font-weight:600}
+
+  /* ---------------- aviso de runtime ---------------- */
+  .banner{
+    display:flex; gap:14px; align-items:flex-start; padding:12px 16px;
+    background:#241a12; border-bottom:1px solid #4a3520; color:#ffd9a0;
+  }
+  .banner.hide{display:none}
+  .banner h4{margin:0 0 3px; font-size:14px; color:#ffcf87}
+  .banner p{margin:0; font-size:13px; color:#e9c391}
+  .banner .acts{display:flex; gap:8px; align-items:center; flex-shrink:0}
+  .banner a{
+    background:#ff9f43; color:#1a1206; text-decoration:none; font-weight:600;
+    padding:7px 13px; border-radius:8px; font-size:13px;
+  }
+  .banner code{
+    display:none; margin-top:8px; background:#160f09; padding:7px 10px;
+    border-radius:6px; font:12px/1.6 Consolas,monospace; color:#ffd9a0;
+  }
+  .banner code.show{display:block}
+
+  /* ---------------- layout ---------------- */
+  main{
+    flex:1; min-height:0; display:grid; gap:12px; padding:12px;
+    grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
+  }
+  @media (max-width:900px){ main{grid-template-columns:1fr; grid-template-rows:1fr 1fr} }
+  .panel{
+    display:flex; flex-direction:column; min-height:0;
+    background:var(--panel); border:1px solid var(--line); border-radius:12px; overflow:hidden;
+  }
+  .panel-head{
+    display:flex; align-items:center; gap:10px; padding:8px 12px;
+    background:var(--panel2); border-bottom:1px solid var(--line);
+    font-size:12px; color:var(--dim); text-transform:uppercase; letter-spacing:.7px;
+  }
+
+  /* ---------------- editor ---------------- */
+  .editor{flex:1; min-height:0; display:flex; background:#0d1119; position:relative}
+  .gutter{
+    width:46px; flex-shrink:0; overflow:hidden; padding:10px 0;
+    text-align:right; color:#465065; background:#0b0f17;
+    border-right:1px solid var(--line);
+    font:13px/20px "Cascadia Code",Consolas,monospace; user-select:none;
+  }
+  .gutter div{padding-right:10px; height:20px}
+  .gutter div.bad{background:#4a1d24; color:#ff9b9b}
+  .code-wrap{position:relative; flex:1; min-width:0}
+  .code-wrap pre,.code-wrap textarea{
+    position:absolute; inset:0; margin:0; padding:10px 14px;
+    font:13px/20px "Cascadia Code",Consolas,monospace;
+    white-space:pre; tab-size:4; border:0; border-radius:0;
+  }
+  .code-wrap pre{z-index:1; background:#0d1119; overflow:hidden; color:var(--id)}
+  .code-wrap textarea{
+    z-index:2; resize:none; outline:none; overflow:auto;
+    background:transparent; color:transparent; caret-color:var(--accent);
+  }
+  .code-wrap textarea::selection{background:#2b3f66}
+  .kw{color:var(--kw)} .str{color:var(--str)} .num{color:var(--num)}
+  .com{color:var(--com); font-style:italic} .op{color:var(--op)} .id{color:var(--id)}
+
+  .statusbar{
+    display:flex; gap:16px; padding:6px 12px; font-size:12px; color:var(--dim);
+    background:var(--panel2); border-top:1px solid var(--line);
+  }
+  #cursor{margin-left:auto; font-variant-numeric:tabular-nums}
+
+  /* ---------------- consola ---------------- */
+  .tabs{gap:4px; text-transform:none; letter-spacing:0}
+  .tab{
+    background:transparent; border:0; padding:5px 11px; border-radius:7px;
+    font-size:13px; color:var(--dim);
+  }
+  .tab:hover{color:var(--fg)}
+  .tab.active{background:#0d1119; color:var(--accent); font-weight:600}
+  .tab-body{flex:1; min-height:0; overflow:auto; padding:12px; background:#0d1119}
+  .tab-body.hide{display:none}
+  .output{
+    margin:0; font:13px/1.65 "Cascadia Code",Consolas,monospace;
+    white-space:pre-wrap; word-break:break-word; color:#cfe3ff;
+  }
+  .error{
+    margin:0 0 12px; padding:11px 13px; border-radius:9px;
+    background:#2a1219; border:1px solid #5c2230; color:#ffb3bd;
+    font:13px/1.6 "Cascadia Code",Consolas,monospace; white-space:pre-wrap;
+  }
+  .error b{color:#ff8b98}
+  .error .tag{
+    display:inline-block; font-size:11px; letter-spacing:.6px; text-transform:uppercase;
+    background:#5c2230; color:#ffd0d6; border-radius:5px; padding:1px 7px; margin-right:8px;
+  }
+  .hint{color:#4d576e}
+  .tokens{display:flex; flex-wrap:wrap; gap:6px; align-content:flex-start}
+  .tok{
+    display:flex; flex-direction:column; gap:1px; padding:5px 9px; border-radius:7px;
+    background:var(--panel2); border:1px solid var(--line);
+    font:12px/1.35 "Cascadia Code",Consolas,monospace;
+  }
+  .tok .t{color:var(--accent)} .tok .t.str{color:var(--str)} .tok .t.num{color:var(--num)}
+  .tok .t.kw{color:var(--kw)} .tok .t.id{color:var(--id)} .tok .t.op{color:var(--op)}
+  .tok .p{color:#4d576e; font-size:10.5px}
+  .jsonkey{color:var(--accent)} .jsonstr{color:var(--str)}
+  .jsonnum{color:var(--num)} .jsonbool{color:var(--kw)}
+
+  footer{
+    display:flex; gap:16px; padding:7px 16px; font-size:12px; color:var(--dim);
+    background:var(--panel); border-top:1px solid var(--line);
+  }
+  .grow{flex:1}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <span class="logo">λ</span> eco <small>IDE</small>
+  </div>
+  <button class="run" id="btn-run">▶ Ejecutar<span class="kbd">Ctrl+Enter</span></button>
+  <select id="examples" title="Cargar un ejemplo"><option value="">— ejemplos —</option></select>
+  <button id="btn-load">Abrir…</button>
+  <button id="btn-save">Guardar</button>
+  <button id="btn-clear">Limpiar consola</button>
+  <span class="spacer"></span>
+  <span class="chip" id="chip-top">runtime: …</span>
+  <input type="file" id="file-input" accept=".eco,.txt" hidden>
+</header>
+
+<div class="banner hide" id="banner">
+  <div>
+    <h4>Falta el ejecutable <span id="exe-name">eco.exe</span></h4>
+    <p>El IDE está usando el intérprete de Python embebido. Para correr tu lenguaje como <b>node</b>
+       (desde la terminal: <b>eco.exe programa.eco</b>) descarga el ejecutable o compílalo:</p>
+    <code id="build-cmd">build.bat</code>
+  </div>
+  <div class="acts">
+    <button id="btn-build" style="font-size:13px">Cómo compilarlo</button>
+    <a href="/download" download="eco.exe">⬇ Descargar eco.exe</a>
+  </div>
+</div>
+
+<main>
+  <!-- ============================ EDITOR ============================ -->
+  <section class="panel">
+    <div class="panel-head"><span>Programa</span><span class="grow"></span><span id="file-name">programa.eco</span></div>
+    <div class="editor">
+      <div class="gutter" id="gutter"></div>
+      <div class="code-wrap">
+        <pre id="hl"><code></code></pre>
+        <textarea id="code" wrap="off" spellcheck="false" autocomplete="off"
+                  autocorrect="off" autocapitalize="off"></textarea>
+      </div>
+    </div>
+    <div class="statusbar">
+      <span id="status">Listo</span>
+      <span id="phase"></span>
+      <span id="cursor">Ln 1, Col 1</span>
+    </div>
+  </section>
+
+  <!-- ============================ CONSOLA =========================== -->
+  <section class="panel">
+    <div class="panel-head tabs">
+      <button class="tab active" data-tab="out">Salida</button>
+      <button class="tab" data-tab="tokens">Tokens</button>
+      <button class="tab" data-tab="ast">AST</button>
+      <span class="grow"></span>
+      <span class="chip" id="chip">…</span>
+    </div>
+
+    <div class="tab-body" id="tab-out">
+      <div class="error hide" id="error" style="display:none"></div>
+      <pre class="output" id="output">(sin salida todavía — pulsa Ejecutar)</pre>
+    </div>
+
+    <div class="tab-body hide" id="tab-tokens">
+      <div class="tokens" id="tokens"></div>
+    </div>
+
+    <div class="tab-body hide" id="tab-ast">
+      <pre class="output" id="ast"></pre>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span id="foot-runtime">runtime: …</span>
+  <span>eco v0.4.0</span>
+  <span class="grow"></span>
+  <span id="foot-msg">lexing → parsing → evaluación</span>
+</footer>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+
+/* ---------------------------------------------------------- editor */
+const code = $("#code"), hl = $("#hl"), gutter = $("#gutter");
+const KW = new Set(["variable","const","escribe","si","sino","mientras","para",
+                    "en","funcion","devuelve","romper","continuar","verdadero",
+                    "falso","nulo","y","o","no"]);
+const OPS = "+-*/%=!<;^,(){}[]";
+let errorLine = null;
+
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const span = (cls, txt) => `<span class="${cls}">${esc(txt)}</span>`;
+
+/* resaltador eco: un lexer en miniatura (los comentarios y strings
+   se tratan primero, como en el intérprete de verdad) */
+function highlight(src){
+  let out = "", i = 0;
+  const is = (c,re) => c !== undefined && re.test(c);
+  while (i < src.length){
+    const c = src[i];
+    if (c === "/" && src[i+1] === "/"){
+      let j = i; while (j < src.length && src[j] !== "\n") j++;
+      out += span("com", src.slice(i,j)); i = j; continue;
+    }
+    if (c === '"'){
+      const start = i;
+      let j = i + 1;
+      while (j < src.length && src[j] !== '"' && src[j] !== "\n"){
+        if (src[j] === "\\") j++;
+        j++;
+      }
+      i = Math.min(j + 1, src.length);
+      out += span("str", src.slice(start, i));
+      continue;
+    }
+    if (is(c,/[0-9]/) || (c === "." && is(src[i+1],/[0-9]/))){
+      let j = i; while (j < src.length && is(src[j],/[0-9.]/)) j++;
+      out += span("num", src.slice(i,j)); i = j; continue;
+    }
+    if (is(c,/[A-Za-z_]/)){
+      let j = i; while (j < src.length && is(src[j],/[A-Za-z0-9_]/)) j++;
+      const w = src.slice(i,j);
+      out += KW.has(w) ? span("kw", w) : span("id", w);
+      i = j; continue;
+    }
+    if (OPS.includes(c)){ out += span("op", c); i++; continue; }
+    out += esc(c); i++;
+  }
+  return out;
+}
+
+function render(){
+  hl.innerHTML = highlight(code.value) + "\n";
+  const n = code.value.split("\n").length;
+  let g = "";
+  for (let i = 1; i <= n; i++) g += `<div${i === errorLine ? ' class="bad"' : ""}>${i}</div>`;
+  gutter.innerHTML = g;
+  syncScroll();
+}
+function syncScroll(){
+  hl.scrollTop = code.scrollTop; hl.scrollLeft = code.scrollLeft;
+  gutter.scrollTop = code.scrollTop;
+}
+function updateCursor(){
+  const p = code.selectionStart, before = code.value.slice(0, p);
+  const ln = before.split("\n").length;
+  const col = p - before.lastIndexOf("\n");
+  $("#cursor").textContent = `Ln ${ln}, Col ${col}`;
+}
+function gotoLine(n){
+  const lines = code.value.split("\n");
+  let pos = 0;
+  for (let i = 0; i < n - 1 && i < lines.length; i++) pos += lines[i].length + 1;
+  const end = pos + (lines[n-1] ? lines[n-1].length : 0);
+  code.focus();
+  code.setSelectionRange(pos, end);
+  code.scrollTop = Math.max(0, (n - 4) * 20);
+  syncScroll(); updateCursor();
+}
+
+code.addEventListener("scroll", syncScroll);
+code.addEventListener("input", () => { if (errorLine){ errorLine = null; } render(); });
+["click","keyup","select"].forEach(ev => code.addEventListener(ev, updateCursor));
+code.addEventListener("keydown", e => {
+  if (e.key === "Tab"){
+    e.preventDefault();
+    const s = code.selectionStart;
+    code.setRangeText("    ", s, code.selectionEnd, "end");
+    render(); updateCursor();
+  }
+});
+
+/* ---------------------------------------------------------- consola */
+function setTab(name){
+  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === name));
+  ["out","tokens","ast"].forEach(t => $("#tab-"+t).classList.toggle("hide", t !== name));
+}
+document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => setTab(t.dataset.tab)));
+
+const PHASE = {lex:"análisis léxico", parse:"análisis sintáctico", run:"ejecución"};
+
+function paint(d, ms){
+  $("#output").textContent = d.output && d.output.length ? d.output : "(sin salida)";
+  $("#chip").textContent = d.runtime || "…";
+
+  const errBox = $("#error");
+  if (d.error){
+    errBox.style.display = "block";
+    errBox.innerHTML = `<span class="tag">${PHASE[d.phase] || "error"}</span>${esc(d.error)}`;
+    const m = d.error.match(/\[línea (\d+)/);
+    errorLine = m ? parseInt(m[1], 10) : null;
+    $("#status").innerHTML = `✕ error en el ${PHASE[d.phase] || "?"}`;
+    $("#phase").textContent = ms ? `· ${ms.toFixed(0)} ms` : "";
+    if (errorLine){
+      errBox.style.cursor = "pointer";
+      errBox.onclick = () => gotoLine(errorLine);
+    }
+    setTab("out");
+  } else {
+    errBox.style.display = "none"; errBox.onclick = null;
+    errorLine = null;
+    const lines = d.output ? d.output.replace(/\n$/,"").split("\n").filter(Boolean).length : 0;
+    $("#status").textContent = `✓ OK · ${lines} línea(s) de salida`;
+    $("#phase").textContent = `· ${ms.toFixed(0)} ms`;
+  }
+
+  /* tokens */
+  const tw = $("#tokens");
+  if (!d.tokens){ tw.innerHTML = '<span class="hint">No se generaron tokens (falló el léxico).</span>'; }
+  else {
+    tw.innerHTML = d.tokens.map(t => {
+      const v = t.value;
+      let label = t.type, cls = "id";
+      if (t.type === "STRING"){ label = `"${v}"`; cls = "str"; }
+      else if (t.type === "NUMBER"){ label = String(v); cls = "num"; }
+      else if (["VARIABLE","CONST","ESCRIBE","SI","SINO","MIENTRAS","PARA","EN",
+                "FUNCION","DEVUELVE","ROMPER","CONTINUAR","VERDADERO","FALSO",
+                "NULO","Y","O","NO"].includes(t.type)){ cls = "kw"; }
+      else if (t.type === "IDENT"){ label = v; cls = "id"; }
+      else if (t.type === "EOF"){ label = "EOF"; cls = "p"; }
+      else { cls = "op"; }
+      return `<div class="tok"><span class="t ${cls}">${esc(String(label))}</span>` +
+             `<span class="p">@${t.line}:${t.col}</span></div>`;
+    }).join("");
+  }
+
+  /* AST */
+  $("#ast").innerHTML = d.ast ? jsonHtml(JSON.stringify(d.ast, null, 2))
+                              : "(no hay AST: el análisis falló)";
+  render();
+}
+
+function jsonHtml(s){
+  return esc(s)
+    .replace(/&quot;([^&]*?)&quot;(\s*:)/g, '<span class="jsonkey">"$1"</span>$2')
+    .replace(/:\s*&quot;([^&]*?)&quot;/g, ': <span class="jsonstr">"$1"</span>')
+    .replace(/:\s*(-?\d+\.?\d*)/g, ': <span class="jsonnum">$1</span>')
+    .replace(/:\s*(true|false|null)/g, ': <span class="jsonbool">$1</span>');
+}
+
+/* ---------------------------------------------------------- ejecutar */
+async function run(){
+  $("#status").textContent = "⏳ ejecutando…";
+  const t0 = performance.now();
+  try{
+    const res = await fetch("/analyze", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({source: code.value, file: exampleName})
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const d = await res.json();
+    paint(d, performance.now() - t0);
+    if (d.runtime) { $("#chip").textContent = d.runtime; $("#foot-runtime").textContent = "runtime: " + d.runtime; }
+  }catch(e){
+    $("#error").style.display = "block";
+    $("#error").innerHTML = '<span class="tag">conexión</span>No llegué al intérprete: ' + esc(e.message) +
+      '<br>Asegúrate de que <b>server.py</b> siga en marcha.';
+    $("#status").textContent = "✕ sin conexión con el intérprete";
+    setTab("out");
+  }
+}
+
+$("#btn-run").addEventListener("click", run);
+$("#btn-clear").addEventListener("click", () => {
+  $("#output").textContent = "(consola vacía)";
+  $("#error").style.display = "none";
+});
+document.addEventListener("keydown", e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === "Enter"){ e.preventDefault(); run(); }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s"){ e.preventDefault(); save(); }
+});
+
+/* ---------------------------------------------------------- archivos */
+let fileName = "programa.eco";
+let exampleName = null;   // ejemplo cargado: así "importar" resuelve rutas
+function setSource(text, name){
+  code.value = text; fileName = name || fileName;
+  $("#file-name").textContent = fileName;
+  errorLine = null; render(); updateCursor();
+}
+function save(){
+  const blob = new Blob([code.value], {type:"text/plain;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = fileName;
+  a.click(); URL.revokeObjectURL(a.href);
+}
+$("#btn-save").addEventListener("click", save);
+$("#btn-load").addEventListener("click", () => $("#file-input").click());
+$("#file-input").addEventListener("change", e => {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = () => { exampleName = null; setSource(String(r.result), f.name); };
+  r.readAsText(f);
+  e.target.value = "";
+});
+
+async function loadExamples(){
+  try{
+    const d = await (await fetch("/examples")).json();
+    const sel = $("#examples");
+    d.examples.forEach(ex => {
+      const o = document.createElement("option");
+      o.value = ex.name; o.textContent = ex.name + ".eco";
+      o.dataset.source = ex.source;
+      sel.appendChild(o);
+    });
+    sel.addEventListener("change", () => {
+      const o = sel.options[sel.selectedIndex];
+      if (o && o.dataset.source !== undefined){
+        exampleName = o.value;                 // para importar "..."
+        setSource(o.dataset.source, o.value + ".eco");
+      }
+      sel.selectedIndex = 0;
+    });
+  }catch(_){ /* sin ejemplos no rompemos el IDE */ }
+}
+
+/* ---------------------------------------------------------- runtime */
+async function loadStatus(){
+  try{
+    const s = await (await fetch("/status")).json();
+    $("#chip-top").innerHTML = "runtime: <b>" + s.runtime + "</b>";
+    $("#chip").textContent = s.runtime;
+    $("#foot-runtime").textContent = "runtime: " + s.runtime;
+    if (!s.exe){
+      $("#exe-name").textContent = s.exe_name;
+      $("#banner").classList.remove("hide");
+      const dl = document.querySelector("#banner a");
+      dl.addEventListener("click", ev => {
+        ev.preventDefault();
+        fetch("/download").then(r => {
+          if (r.ok) return r.blob().then(b => {
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(b); a.download = s.exe_name;
+            a.click(); URL.revokeObjectURL(a.href);
+          });
+          return r.json().then(j => { $("#build-cmd").classList.add("show");
+            $("#build-cmd").textContent = j.error || "Compílalo con build.bat"; });
+        });
+      });
+    }
+  }catch(_){
+    $("#chip-top").textContent = "runtime: desconocido";
+  }
+}
+$("#btn-build").addEventListener("click", () => $("#build-cmd").classList.toggle("show"));
+
+/* ---------------------------------------------------------- arranque */
+const DEMO = `// Escríbeme y pulsa  Ctrl+Enter
+variable nombre = "Mundo";
+variable edad = 30;
+escribe "Hola, \${nombre}! Tienes \${edad} años.";
+
+si (edad >= 18) {
+    escribe "mayor de edad";
+} sino {
+    escribe "menor";
+}
+
+variable suma = 0;
+para (variable i = 0; i < 5; i = i + 1) {
+    suma = suma + i;
+}
+escribe "suma 0..4 = \${suma}";
+`;
+
+setSource(DEMO, "programa.eco");
+render();
+updateCursor();
+loadExamples();
+loadStatus();
+</script>
+</body>
+</html>

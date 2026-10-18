@@ -1,0 +1,24 @@
+// Precedencia, potencias, constantes y operadores lógicos
+
+escribe 2 + 3 * 4;          // 14
+escribe (2 + 3) * 4;        // 20
+escribe 2 ^ 10;             // 1024
+escribe 2 ^ 3 ^ 2;          // 512 (la potencia va por la derecha)
+escribe 10 / 4;             // 2.5
+escribe 10 % 3;             // 1
+
+const PI = 3.1416;
+const RADIO = 2;
+escribe "área = ${PI * RADIO ^ 2}";
+
+// y / o con evaluación corta: si la primera parte decide, la segunda ni se mira
+variable edad = 20;
+si (edad >= 18 y edad < 65) {
+    escribe "en edad de trabajar";
+}
+escribe falso y (1 / 0 == 0);      // no revienta: cortocircuito
+escribe verdadero o (1 / 0 == 0);  // idem
+
+// comparaciones estrictas de tipos
+escribe 1 == 1;
+escribe 1 == verdadero;            // falso: número no es booleano

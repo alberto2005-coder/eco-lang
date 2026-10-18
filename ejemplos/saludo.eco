@@ -1,0 +1,14 @@
+// Mi primer programa en este lenguaje
+variable nombre = "Mundo";
+variable edad = 30;
+
+escribe "Hola, ${nombre}!";
+escribe "Tienes ${edad} años.";
+
+si (edad >= 18) {
+    escribe "Es mayor de edad";
+} sino si (edad > 12) {
+    escribe "Es adolescente";
+} sino {
+    escribe "Es menor";
+}
