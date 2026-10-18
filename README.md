@@ -338,3 +338,14 @@ detenido el programa se resalta en el editor.
 Todo eso junto en un solo programa de ejemplo: **`ejemplos\inventario.eco`**,
 y los módulos en **`ejemplos\importar.eco`** (con
 `ejemplos\modulos\utilidades.eco`).
+
+---
+
+## Licencia
+
+**MIT con adenda personalizada** → [LICENSE](LICENSE)
+
+Libre para uso personal, educativo y comercial. Solo hay que conservar el aviso
+de autoría (Alberto Ortiz) y no usar el nombre «eco» para avalar una versión
+derivada sin permiso. El lenguaje, sus ejemplos y la documentación pueden
+ensenarse y publicarse sin más citar el proyecto.

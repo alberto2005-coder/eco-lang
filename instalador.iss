@@ -61,6 +61,7 @@ Name: "assoc"; Description: "Asociar los archivos .eco con el IDE"; \
 Source: "dist\{#MyCliName}";           DestDir: "{app}"; Flags: ignoreversion
 Source: "dist\{#MyAppExeName}";        DestDir: "{app}"; Flags: ignoreversion
 Source: "README.md";                   DestDir: "{app}"; Flags: ignoreversion
+Source: "LICENSE";                     DestDir: "{app}"; Flags: ignoreversion
 Source: "ejemplos\*";                  DestDir: "{app}\ejemplos"; \
         Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "docs\*";                      DestDir: "{app}\docs"; \

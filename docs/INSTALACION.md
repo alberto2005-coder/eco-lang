@@ -33,7 +33,8 @@ entrada del PATH, los accesos directos y la asociación de `.eco`).
 ├── eco-ide.exe      el IDE de escritorio (empaqueta los ejemplos)
 ├── ejemplos\        los .eco de ejemplo
 ├── docs\            la documentación (9 guías en Markdown)
-└── README.md
+├── README.md
+└── LICENSE          licencia MIT con adenda personalizada
 ```
 
 Menú Inicio: **eco IDE**, **eco REPL**, **Ejemplos**, **Desinstalar eco**.

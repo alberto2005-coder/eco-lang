@@ -1,0 +1,70 @@
+LICENCIA DE eco
+===============
+
+Copyright (c) 2026 Alberto Ortiz
+
+Este proyecto se distribuye bajo la **licencia MIT** con una **adenda
+personalizada** al final (forma parte de la licencia).
+
+En cristiano: es software libre y gratuito. Puedes usarlo, copiarlo, modificarlo
+y venderlo (incluso cosas hechas con él), siempre que conserves el aviso de
+copyright y no uses el nombre «eco» para avalar una versión derivada sin
+permiso.
+
+--- texto original de la licencia MIT -------------------------------
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--- adenda personalizada (forma parte de la licencia) ----------------
+
+1. AVISO DE AUTORÍA
+   Cualquier copia, total o parcial, y cualquier versión derivada debe
+   conservar este archivo de licencia y citar a «Alberto Ortiz» como autor
+   original del proyecto eco.
+
+2. NOMBRE DEL PROYECTO
+   No se puede usar el nombre «eco», sus logotipos ni la identidad visual del
+   proyecto para promocionar, avalar o publicitar una versión derivada o un
+   producto comercial sin permiso escrito del autor. Distribuir el código
+   modificado con otro nombre es perfectamente válido.
+
+3. EL LENGUAJE ES ABIERTO
+   La sintaxis de eco, sus palabras clave, los programas de `ejemplos/` y el
+   contenido de `docs/` pueden reproducirse, enseñarse, traducirse y publicar
+   libremente (libros, cursos, vídeos, artículos, wikis), con o sin ánimo de
+   lucro, citando el proyecto.
+
+4. USO EDUCATIVO
+   Se anima expresamente al uso de eco en aulas, talleres y material docente.
+   En ese contexto no hace falta pedir permiso; basta con citar la fuente.
+
+5. SIN GARANTÍAS
+   El autor no garantiza nada sobre el funcionamiento del proyecto ni responde
+   por los daños derivados de su uso, tal como establece el texto MIT de
+   arriba.
+
+6. SEPARABILIDAD
+   Si alguna cláusula de esta adenda no pudiera aplicarse en algún país, el
+   resto de la licencia (MIT) sigue vigente por completo.
+
+---
+
+La licencia completa en inglés (estándar) está en
+<https://opensource.org/licenses/MIT>. Dudas sobre permisos: ábrelas como issue
+en <https://github.com/alberto2005-coder/eco-lang>.
