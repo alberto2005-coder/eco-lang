@@ -4,6 +4,8 @@
 (lexer → parser → evaluador), su **IDE de escritorio**, su **CLI `eco`** y su
 **instalador**. Las palabras clave son **en español**: ese es el sello.
 
+**Código y documentación:** <https://github.com/alberto2005-coder/eco-lang>
+
 ```text
 hola.eco                           →  eco  (o F5 en el IDE)
 ```
