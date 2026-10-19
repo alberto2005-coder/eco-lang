@@ -349,12 +349,8 @@ y los módulos en **`ejemplos\importar.eco`** (con
 
 ## Licencia
 
-**MIT con adenda personalizada** → [LICENSE](LICENSE)
+**GPL-3.0 license** → [LICENSE](LICENSE)
 
-Libre para uso personal, educativo y comercial. Solo hay que conservar el aviso
-de autoría (Alberto Ortiz) y no usar el nombre «eco» para avalar una versión
-derivada sin permiso. El lenguaje, sus ejemplos y la documentación pueden
-ensenarse y publicarse sin más citar el proyecto.
 
 
 ---
