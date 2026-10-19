@@ -355,3 +355,205 @@ Libre para uso personal, educativo y comercial. Solo hay que conservar el aviso
 de autoría (Alberto Ortiz) y no usar el nombre «eco» para avalar una versión
 derivada sin permiso. El lenguaje, sus ejemplos y la documentación pueden
 ensenarse y publicarse sin más citar el proyecto.
+
+
+---
+
+# English Version
+
+**eco** is a custom programming language with its own interpreter (lexer -> parser -> evaluator), a **desktop IDE**, an **`eco` CLI** and an **installer**. Its keywords are **in Spanish** — that is the signature of the language.
+
+**Code and documentation:** <https://github.com/alberto2005-coder/eco-lang> ·
+**Download:** [`eco-setup.exe` (v0.4.0)](https://github.com/alberto2005-coder/eco-lang/releases/latest)
+
+[![Release](https://img.shields.io/github/v/release/alberto2005-coder/eco-lang?label=eco)](https://github.com/alberto2005-coder/eco-lang/releases/latest)
+[![License](https://img.shields.io/badge/license-GPL--3.0-7aa2ff)](LICENSE)
+
+```text
+hola.eco                           ->  eco  (or F5 in the IDE)
+```
+```text
+variable nombre = "Mundo";
+escribe "Hola, ${nombre}!";
+```
+
+| Piece | File | What it does |
+|---|---|---|
+| Lexer | `lexer.py` | Text -> **tokens** (`variable`, `10`, `+`, `;`...). |
+| Parser | `parser.py` | **Recursive descent** -> **AST**. |
+| Evaluator | `interpreter.py` | Scopes, loops, functions, lists, dictionaries, `${}`, `entrada()`. |
+| Core | `runtime.py` | Bundles the 3 phases for CLI/IDE/server (+ live server). |
+| CLI | `main.py` | `eco file`, `eco`, `eco -e`, `eco --analyze`, `eco --server`. |
+| IDE | `ide.py` | Editor + debugger + console + Tokens/AST (tkinter). |
+| Tests | `tests.py` / `tests_ide.py` | The 3 phases, and the IDE editor. |
+| Docs | `docs/` | Requirements, guides, architecture and development. |
+
+## Installation
+
+Everything is precompiled: **you do not need Python**.
+
+1. Download **[`eco-setup.exe`](https://github.com/alberto2005-coder/eco-lang/releases/latest)** from the release (or use `dist\eco-setup.exe` if you built it yourself).
+2. Run it (no admin rights required).
+3. Open a **new** terminal:
+
+```bash
+eco --version                 # 0.4.0
+eco -e "escribe 2 + 3 * 4;"   # 14
+eco ejemplos\saludo.eco       # run a file
+eco                           # REPL
+```
+
+The **IDE** appears in the Start Menu (*eco IDE*) and `.eco` files open on double-click.
+
+Uninstall: *Start Menu -> eco -> Uninstall eco* (removes program, PATH, shortcuts and file association).
+
+### Build from source
+
+```bash
+build.bat                                              # eco.exe + eco-ide.exe + installer
+"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" instalador.iss   # installer only (6 or 7)
+```
+
+> The `.bat` files are for development only. To use eco, the installer is enough.
+
+## The Language
+
+Reserved keywords:
+
+```text
+variable  const  escribe  si  sino  mientras  para  en
+funcion   devuelve  romper  continuar
+verdadero  falso  nulo  y  o  no
+importar  como
+```
+
+> `y`, `o`, `no`, `en`, `importar` and `como` are reserved: they cannot be used as variable names.
+
+Full language guide with examples, method reference, EBNF grammar and error messages: [**docs/GUIA-DEL-LENGUAJE.md**](docs/GUIA-DEL-LENGUAJE.md).
+
+Types: **number** (`10`, `3.14`) · **text** (`"hola"`) · **boolean** (`verdadero`, `falso`) · **list** (`[1, 2, 3]`) · **dictionary** (`{"a": 1}`) · **null** · **function**
+
+Instructions:
+
+```text
+variable edad = 30;              // declaration (mutable)
+const PI = 3.1416;               // constant (cannot be modified)
+edad = edad + 1;                 // assignment
+escribe "year", 2026;            // several values separated by space
+
+si (cond) { ... } sino si (...) { ... } sino { ... }
+mientras (cond) { ... }
+para (variable i = 0; i < 10; i = i + 1) { ... }   // classic
+para (x en [1, 2, 3]) { ... }                       // iterate lists and dictionaries
+romper;  continuar;
+
+funcion doble(n) { devuelve n * 2; }
+doble(21);
+```
+
+Expressions:
+
+```text
++ - * / % ^            // ^ is power and right-associative: 2^3^2 = 512
+== != < <= > >=
+y  o  no               // short-circuit: falso y (1/0 == 0) does not crash
+lista[0]               // index (negatives count from the end)
+texto[1]               // a single character
+d["clave"]             // dictionary index
+[1, 2] + [3]           // list concatenation
+```
+
+String interpolation:
+
+```text
+variable nombre = "Ana";
+escribe "Hola, ${nombre} tienes ${10 * 3} puntos";   // interpolation
+escribe 'single quotes work too';                    // ' and " are equivalent
+escribe "${persona['nombre']}";                      // single inside ${}
+escribe "line\nbreak";                               // \n \t \" \\
+escribe "literal \${not interpolated}";              // \$
+```
+
+Dictionaries:
+
+```text
+variable persona = {nombre: "Ana", edad: 30, idiomas: ["es", "en"]};
+escribe persona["nombre"];
+persona["pais"] = "Espana";        // creates the key if missing
+escribe longitud(persona);          // 3
+escribe claves(persona);            // ["nombre", "edad", "idiomas", "pais"]
+escribe valores(persona);
+para (k en persona) { escribe "${k}"; }   // iterates keys
+escribe tipo(persona);             // "diccionario"
+```
+
+Modules:
+
+```text
+importar "utilidades";                      // relative to the importer
+importar "modulos/utilidades.eco" como u;   // with extension and alias
+
+escribe utilidades.PI;         // an import is a dictionary
+escribe utilidades.doble(21);  // with its functions
+escribe u.doble(3);            // the alias points to the same module
+```
+
+Built-in functions:
+
+| Function | What it does |
+|---|---|
+| `entrada([msg])` | Reads a line from the keyboard. |
+| `longitud(x)` | Number of list/dictionary items or text characters. |
+| `rango(n)` / `rango(a, b)` / `rango(a, b, step)` | List of numbers. |
+| `agregar(lista, v)` | Appends `v` to `lista`. |
+| `claves(d)` / `valores(d)` | Lists with a dictionary's keys or values. |
+| `texto(x)` | Converts to text. |
+| `numero("3,5")` | Converts to number (accepts comma or dot). |
+| `tipo(x)` | `"numero"`, `"texto"`, `"booleano"`, `"lista"`, `"diccionario"`, `"nulo"`, `"funcion"`. |
+
+## Running Without Installing
+
+```bash
+cd eco
+py main.py ejemplos/saludo.eco   # run a file
+py main.py                       # REPL
+py ide.py                        # desktop IDE
+py tests.py                      # tests
+py tests_ide.py                  # IDE editor tests (opens the window)
+py server.py                     # optional web IDE (http://127.0.0.1:8787)
+```
+
+## IDE Editor
+
+| Key | Action |
+|---|---|
+| `Ctrl+Z` / `Ctrl+Y` | Undo / redo |
+| `Ctrl+F` | Find (counter `3/12`, `◀` `▶` to jump, `Aa` match case) |
+| `Ctrl+H` | Find and replace (one or all) |
+| `F3` / `Shift+F3` | Next / previous match |
+| `Ctrl+A` | Select all |
+| `Ctrl+G` | Go to line |
+| `Esc` | Closes the search bar (or stops debugging) |
+
+Right-clicking the editor opens the standard context menu with shortcuts in parentheses: Undo, Redo, Cut, Copy, Paste, Delete, Select All, Find, Replace and Go to Line.
+
+## IDE Debugger
+
+| Key | Action |
+|---|---|
+| `F5` | Run the program |
+| `F9` | Debug: stops at the first statement |
+| `F10` | Step: advance one statement |
+| `F11` | Continue to the next breakpoint |
+| `Esc` | Stop debugging |
+
+Click the **line numbers** to set or remove breakpoints. The **Variables** tab shows values at each step and highlights the line where execution is paused.
+
+## License
+
+**GPL-3.0** -> see [LICENSE](LICENSE)
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+Copyright (C) 2026 Alberto Ortiz
+
