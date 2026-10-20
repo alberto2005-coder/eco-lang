@@ -8,7 +8,7 @@
 **Descarga:** [`eco-setup.exe` (v0.4.0)](https://github.com/alberto2005-coder/eco-lang/releases/latest)
 
 [![Release](https://img.shields.io/github/v/release/alberto2005-coder/eco-lang?label=eco)](https://github.com/alberto2005-coder/eco-lang/releases/latest)
-[![Licencia](https://img.shields.io/badge/licencia-MIT%20con%20adenda-7aa2ff)](LICENSE)
+[![License](https://img.shields.io/badge/license-GPL--3.0-7aa2ff)](LICENSE)
 
 ```text
 hola.eco                           →  eco  (o F5 en el IDE)
