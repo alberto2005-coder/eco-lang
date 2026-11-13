@@ -1,61 +1,79 @@
 # eco
 
-**eco** es un lenguaje de programación propio, con su intérprete
-(lexer → parser → evaluador), su **IDE de escritorio**, su **CLI `eco`** y su
-**instalador**. Las palabras clave son **en español**: ese es el sello.
-
-**Código y documentación:** <https://github.com/alberto2005-coder/eco-lang> ·
-**Descarga:** [`eco-setup.exe` (v0.4.0)](https://github.com/alberto2005-coder/eco-lang/releases/latest)
-
 [![Release](https://img.shields.io/github/v/release/alberto2005-coder/eco-lang?label=eco)](https://github.com/alberto2005-coder/eco-lang/releases/latest)
-[![License](https://img.shields.io/badge/license-GPL--3.0-7aa2ff)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Tkinter](https://img.shields.io/badge/IDE-Tkinter-FFD43B?logo=python&logoColor=black)](https://docs.python.org/3/library/tkinter.html)
+[![GPL-3.0](https://img.shields.io/badge/Licencia-GPL--3.0-blue)](LICENSE)
 
-```text
-hola.eco                           →  eco  (o F5 en el IDE)
-```
+[Español](#español) · [English](#english)
+
+---
+
+## Español
+
+### Índice
+
+- [Descripción](#descripción)
+- [Instalación](#instalación)
+- [Inicio rápido](#inicio-rápido)
+- [El lenguaje](#el-lenguaje)
+- [Tipos y expresiones](#tipos-y-expresiones)
+- [Diccionarios](#diccionarios)
+- [Módulos](#módulos)
+- [Funciones incorporadas](#funciones-incorporadas)
+- [Gramática (EBNF)](#gramática-ebnf)
+- [Mensajes de error](#mensajes-de-error)
+- [CLI](#cli)
+- [IDE de escritorio](#ide-de-escritorio)
+- [Depurador](#depurador)
+- [IDE web](#ide-web)
+- [Uso sin instalar](#uso-sin-instalar)
+- [Estructura del proyecto](#estructura-del-proyecto)
+- [Documentación](#documentación)
+- [Novedades de la 0.4.0](#novedades-de-la-040)
+- [Licencia](#licencia)
+
+### Descripción
+
+**eco** es un lenguaje de programación propio con su intérprete (**lexer → parser → evaluador**), un **IDE de escritorio**, una **CLI `eco`**, un **IDE web** opcional y un **instalador para Windows**. Sus palabras clave están **en español**: ese es su sello distintivo.
+
 ```text
 variable nombre = "Mundo";
 escribe "Hola, ${nombre}!";
 ```
 
+**Descarga:** [`eco-setup.exe`](https://github.com/alberto2005-coder/eco-lang/releases/latest)
+
 | Pieza | Archivo | Qué hace |
 |---|---|---|
-| Léxico | `lexer.py` | El texto → **tokens** (`variable`, `10`, `+`, `;`…). |
-| Sintáctico | `parser.py` | **Descenso recursivo** → **AST**. |
-| Evaluador | `interpreter.py` | Ámbitos, bucles, funciones, listas, diccionarios, `${}`, `entrada()`. |
-| Núcleo | `runtime.py` | Empaqueta las 3 fases para CLI/IDE/servidor (+ servidor vivo). |
-| CLI | `main.py` | `eco archivo`, `eco`, `eco -e`, `eco --analyze`, `eco --server`. |
-| IDE | `ide.py` | Editor + depurador + consola + Tokens/AST (tkinter). |
-| Tests | `tests.py` / `tests_ide.py` | Las 3 fases, y el editor del IDE. |
-| Docs | `docs/` | Requisitos, guías, arquitectura y desarrollo. |
+| Léxico | `lexer.py` | Texto → **tokens** (`variable`, `10`, `+`, `;`…) |
+| Sintáctico | `parser.py` | Descenso recursivo → **AST** |
+| Evaluador | `interpreter.py` | Ámbitos, bucles, funciones, listas, diccionarios, `${}`, `entrada()` |
+| Núcleo | `runtime.py` | Empaqueta las tres fases para CLI, IDE y servidor |
+| CLI | `main.py` | `eco archivo`, `eco`, `eco -e`, `eco --analyze`, `eco --server` |
+| IDE | `ide.py` | Editor, depurador, consola y vistas de Tokens/AST con tkinter |
+| Tests | `tests.py`, `tests_ide.py` | Las tres fases y el editor del IDE |
 
----
-
-## Documentación
-
-Está en [`docs/`](docs/README.md), con el detalle que este README resume:
-
-| Documento | Qué contiene |
-|---|---|
-| [docs/REQUISITOS.md](docs/REQUISITOS.md) | Requisitos funcionales (RF) y no funcionales (RNF), alcance y criterios de aceptación |
-| [docs/INSTALACION.md](docs/INSTALACION.md) | Instalador, uso sin instalar, IDE web y problemas comunes |
-| [docs/GUIA-DEL-LENGUAJE.md](docs/GUIA-DEL-LENGUAJE.md) | De cero a módulos: tipos, instrucciones, métodos, gramática EBNF y errores |
-| [docs/GUIA-DEL-IDE.md](docs/GUIA-DEL-IDE.md) | Interfaz, todos los atajos, buscar/reemplazar, menú contextual y depurador |
-| [docs/GUIA-DE-LA-CLI.md](docs/GUIA-DE-LA-CLI.md) | Comandos `eco`, códigos de salida, REPL y el JSON de `--analyze` |
-| [docs/GUIA-DEL-SERVIDOR-WEB.md](docs/GUIA-DEL-SERVIDOR-WEB.md) | Endpoints, seguridad y limitaciones del IDE web |
-| [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) | Flujo lexer → parser → evaluador, contratos y cómo ampliar el lenguaje |
-| [docs/DESARROLLO.md](docs/DESARROLLO.md) | Tests, compilación con PyInstaller e Inno Setup, checklist de versión |
-
----
-
-## Instalación
+### Instalación
 
 Todo está compilado: **no necesitas Python**.
 
-1. Descarga **[`eco-setup.exe`](https://github.com/alberto2005-coder/eco-lang/releases/latest)**
-   desde el release (o usa `dist\eco-setup.exe` si lo compilaste tú).
-2. Ejecútalo (no pide administrador).
-3. Abre una terminal **nueva**:
+1. Descarga **[`eco-setup.exe`](https://github.com/alberto2005-coder/eco-lang/releases/latest)** (o usa `dist\eco-setup.exe` si lo compilaste tú).
+2. Ejecútalo; no pide administrador.
+3. Abre una terminal **nueva**.
+
+El **IDE** aparece en el Menú Inicio como *eco IDE* y los archivos `.eco` se abren con doble clic. Para desinstalar: *Menú Inicio → eco → Desinstalar eco* (borra programa, PATH, accesos directos y asociación de archivos).
+
+**Compilar desde cero**
+
+```bash
+build.bat
+"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" instalador.iss
+```
+
+`build.bat` genera `eco.exe`, `eco-ide.exe` y el instalador; detecta Inno Setup 6 y 7. Los `.bat` son solo para desarrollo.
+
+### Inicio rápido
 
 ```bash
 eco --version                 # 0.4.0
@@ -64,26 +82,11 @@ eco ejemplos\saludo.eco       # ejecuta un archivo
 eco                           # REPL
 ```
 
-3. El **IDE** aparece en el Menú Inicio (*eco IDE*) y los `.eco` se abren
-   con doble clic.
+En el IDE, `F5` ejecuta el programa abierto.
 
-Desinstalar: *Menú Inicio → eco → Desinstalar eco*
-(borra programa, PATH, accesos directos y asociación).
+### El lenguaje
 
-### Compilar desde cero
-
-```bash
-build.bat                                              # eco.exe + eco-ide.exe + instalador
-"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" instalador.iss   # solo el instalador (6 o 7)
-```
-
-> Los `.bat` son solo para desarrollo. Para usar eco basta con el instalador.
-
----
-
-## El lenguaje
-
-### Palabras clave (reservadas)
+**Palabras clave reservadas:**
 
 ```text
 variable  const  escribe  si  sino  mientras  para  en
@@ -92,56 +95,48 @@ verdadero  falso  nulo  y  o  no
 importar  como
 ```
 
-> `y`, `o`, `no`, `en`, `importar` y `como` están reservadas: no sirven como
-> nombres de variable.
+`y`, `o`, `no`, `en`, `importar` y `como` están reservadas: no sirven como nombres de variable.
 
-Guía completa con ejemplos y referencia de métodos, gramática y errores:
-[**docs/GUIA-DEL-LENGUAJE.md**](docs/GUIA-DEL-LENGUAJE.md).
-
-### Tipos
-
-**número** (`10`, `3.14`) · **texto** (`"hola"`) · **booleano** (`verdadero`,
-`falso`) · **lista** (`[1, 2, 3]`) · **diccionario** (`{"a": 1}`) · **nulo** ·
-**función**
-
-### Instrucciones
+**Instrucciones:**
 
 ```text
-variable edad = 30;              // declaración (mutable)
-const PI = 3.1416;               // constante (no se puede modificar)
+variable edad = 30;              // declaración mutable
+const PI = 3.1416;               // constante, no se puede modificar
 edad = edad + 1;                 // asignación
 escribe "año", 2026;             // varios valores separados por espacio
 
 si (cond) { ... } sino si (...) { ... } sino { ... }
 mientras (cond) { ... }
 para (variable i = 0; i < 10; i = i + 1) { ... }   // clásico
-para (x en [1, 2, 3]) { ... }                      // recorrer listas y diccionarios
+para (x en [1, 2, 3]) { ... }                      // listas y diccionarios
 romper;  continuar;
 
 funcion doble(n) { devuelve n * 2; }
 doble(21);
 ```
 
-### Expresiones
+### Tipos y expresiones
+
+Tipos: **número** (`10`, `3.14`), **texto** (`"hola"`), **booleano** (`verdadero`, `falso`), **lista** (`[1, 2, 3]`), **diccionario** (`{"a": 1}`), **nulo** y **función**.
 
 ```text
-+ - * / % ^            // ^ es potencia y va por la derecha: 2^3^2 = 512
++ - * / % ^            // ^ es potencia y asocia por la derecha: 2^3^2 = 512
 == != < <= > >=
-y  o  no               // evaluación corta: falso y (1/0 == 0) no revienta
-lista[0]               // índice (los negativos cuentan desde el final)
+y  o  no               // cortocircuito: falso y (1/0 == 0) no revienta
+lista[0]               // índice; los negativos cuentan desde el final
 texto[1]               // un carácter
 d["clave"]             // índice de diccionario
 [1, 2] + [3]           // concatenación de listas
 ```
 
-### Textos con estilo
+**Textos con estilo:**
 
 ```text
 variable nombre = "Ana";
 escribe "Hola, ${nombre} tienes ${10 * 3} puntos";   // interpolación
-escribe 'comillas simples también';                  // '  y  "  son equivalentes
+escribe 'comillas simples también';                  // ' y " son equivalentes
 escribe "${persona['nombre']}";                      // simples dentro de ${}
-escribe "salto\nde línea";                           // \n \t \" \\ 
+escribe "salto\nde línea";                           // \n \t \" \\
 escribe "literal \${no se interpola}";               // \$
 ```
 
@@ -169,17 +164,12 @@ escribe utilidades.doble(21);  // con sus funciones
 escribe u.doble(3);            // el alias apunta al mismo módulo
 ```
 
-- La ruta sale del archivo que importa (`ejemplos/`, `ejemplos/modulos/`…),
-  con o sin `.eco`.
-- El módulo se ejecuta **una sola vez**, aunque lo importen varios programas
-  o lo importes dos veces con y sin alias.
-- Exporta sus `variable`, `const` y `funcion` como claves de un diccionario:
-  se leen con punto y sirve todo lo de diccionarios (`claves`, `longitud`…).
-- Ejemplo completo: **`ejemplos\importar.eco`**, que usa
-  **`ejemplos\modulos\utilidades.eco`** (está en subcarpeta para no aparecer
-  en la lista de ejemplos del IDE).
+- La ruta se resuelve desde el archivo que importa, con o sin `.eco`.
+- El módulo se ejecuta **una sola vez**, aunque lo importen varios programas o se repita con y sin alias.
+- Exporta sus `variable`, `const` y `funcion` como claves de un diccionario: se leen con punto y aceptan `claves`, `longitud`, etc.
+- Ejemplo completo: `ejemplos/importar.eco`, que usa `ejemplos/modulos/utilidades.eco`.
 
-### Leer del teclado
+**Leer del teclado:**
 
 ```text
 variable nombre = entrada("¿Cómo te llamas? ");
@@ -187,22 +177,20 @@ variable edad = numero(entrada("¿Qué edad tienes? "));
 escribe "${nombre} tiene ${edad} años";
 ```
 
-En la terminal se escribe en la consola; en el IDE de escritorio se abre un
-diálogo. (En el IDE web no está disponible: usa la terminal o el IDE de
-escritorio.)
+En la terminal se escribe en la consola; en el IDE de escritorio se abre un diálogo. El IDE web no lo soporta: usa la terminal o el IDE de escritorio.
 
 ### Funciones incorporadas
 
 | Función | Qué hace |
 |---|---|
-| `entrada([msg])` | Lee una línea por teclado. |
-| `longitud(x)` | Nº de elementos de lista/diccionario o caracteres de texto. |
-| `rango(n)` / `rango(a, b)` / `rango(a, b, paso)` | Lista de números. |
-| `agregar(lista, v)` | Añade `v` al final de `lista`. |
-| `claves(d)` / `valores(d)` | Listas con las claves o los valores de un diccionario. |
-| `texto(x)` | Convierte a texto. |
-| `numero("3,5")` | Convierte a número (admite coma o punto). |
-| `tipo(x)` | `"número"`, `"texto"`, `"booleano"`, `"lista"`, `"diccionario"`, `"nulo"`, `"función"`. |
+| `entrada([msg])` | Lee una línea por teclado |
+| `longitud(x)` | Número de elementos o de caracteres |
+| `rango(n)` / `rango(a, b)` / `rango(a, b, paso)` | Lista de números |
+| `agregar(lista, v)` | Añade `v` al final |
+| `claves(d)` / `valores(d)` | Claves o valores de un diccionario |
+| `texto(x)` | Convierte a texto |
+| `numero("3,5")` | Convierte a número (coma o punto) |
+| `tipo(x)` | `"número"`, `"texto"`, `"booleano"`, `"lista"`, `"diccionario"`, `"nulo"`, `"función"` |
 
 ### Gramática (EBNF)
 
@@ -235,13 +223,11 @@ primario    := NUMBER | CADENA | verdadero | falso | nulo | IDENT
              | "{" (clave ":" expresión ("," clave ":" expresión)*)? "}"
              | "(" expresión ")"
 clave       := IDENT | CADENA
-CADENA      := '"' (cualquier cosa | escape | '${' ... '}')* '"'
-             | "'" (cualquier cosa | escape)* "'"
 ```
 
 ### Mensajes de error
 
-Siempre con línea y columna y en la fase que corresponda:
+Siempre con línea y columna, y en la fase que corresponda:
 
 ```text
 Error: [línea 3, columna 12] Carácter inesperado '@'
@@ -252,145 +238,175 @@ Error: [línea 12] Índice fuera de rango (7) al acceder: la lista tiene 3 eleme
 Error: [línea 15] La clave 'peso' no existe en el diccionario (tiene: "nombre", "edad")
 ```
 
----
+### CLI
 
-## Uso sin instalar
+| Comando | Qué hace |
+|---|---|
+| `eco archivo.eco` | Ejecuta un programa |
+| `eco` | REPL interactiva |
+| `eco -e "código"` | Evalúa una expresión o instrucción |
+| `eco --analyze archivo` | Devuelve el análisis en JSON (tokens y AST) |
+| `eco --server` | Levanta el IDE web |
+| `eco --version` | Muestra la versión |
 
-```bash
-cd eco
-py main.py ejemplos/saludo.eco   # ejecuta un archivo
-py main.py                       # REPL
-py ide.py                         # IDE de escritorio
-py tests.py                       # tests
-py tests_ide.py                   # tests del editor del IDE (abre la ventana)
-py server.py                      # IDE web opcional (http://127.0.0.1:8787)
-```
+Los códigos de salida y el esquema del JSON están en [docs/GUIA-DE-LA-CLI.md](docs/GUIA-DE-LA-CLI.md).
 
-## Editor del IDE
+### IDE de escritorio
 
-| Tecla | Qué hace |
+| Tecla | Acción |
 |---|---|
 | `Ctrl+Z` / `Ctrl+Y` | Deshacer / rehacer |
-| `Ctrl+F` | Buscar (contador `3/12`, `◀` `▶` para saltar, `Aa` distingue mayúsculas) |
+| `Ctrl+F` | Buscar (contador `3/12`, `◀` `▶`, `Aa` para mayúsculas) |
 | `Ctrl+H` | Buscar y reemplazar (uno o todos) |
 | `F3` / `Shift+F3` | Siguiente / anterior coincidencia |
 | `Ctrl+A` | Seleccionar todo |
 | `Ctrl+G` | Ir a la línea |
-| `Esc` | Cierra la barra de búsqueda (o detiene la depuración) |
+| `Esc` | Cierra la búsqueda o detiene la depuración |
 
-`Enter` en la caja salta a la siguiente coincidencia y `Shift+Enter` a la
-anterior; si la barra está cerrada, `F3` la reabre con el último término.
-Las coincidencias se resaltan mientras escribes, y la actual en otro color.
+`Enter` en la caja salta a la siguiente coincidencia y `Shift+Enter` a la anterior; con la barra cerrada, `F3` la reabre con el último término. Las coincidencias se resaltan al escribir y la actual usa otro color. El clic derecho abre el menú contextual con los atajos entre paréntesis.
 
-El **clic derecho** en el editor abre el menú típico con su atajo entre
-paréntesis: Deshacer, Rehacer, Cortar, Copiar, Pegar, Borrar, Seleccionar
-todo, Buscar, Reemplazar e Ir a la línea (los que necesitan selección se
-deshabilitan solos si no hay texto seleccionado).
+### Depurador
 
-## Depurador del IDE
-
-| Tecla | Qué hace |
+| Tecla | Acción |
 |---|---|
-| `F5` | Ejecuta el programa |
-| `F9` | Depura: se detiene en la primera instrucción |
-| `F10` | Paso a paso: avanza una instrucción |
-| `F11` | Sigue hasta el próximo punto de ruptura |
-| `Esc` | Detiene la depuración |
+| `F5` | Ejecutar |
+| `F9` | Depurar desde la primera instrucción |
+| `F10` | Paso a paso |
+| `F11` | Continuar hasta el próximo punto de ruptura |
+| `Esc` | Detener |
 
-Haz clic en los **números de línea** para marcar o quitar puntos de ruptura.
-La pestaña **Variables** muestra los valores en cada paso y la línea donde está
-detenido el programa se resalta en el editor.
+Haz clic en los **números de línea** para marcar o quitar puntos de ruptura. La pestaña **Variables** muestra los valores en cada paso y el editor resalta la línea detenida.
 
----
+### IDE web
 
-## De la 0.3.0 a la 0.4.0
+```bash
+py server.py      # http://127.0.0.1:8787
+```
 
-- [x] Editor con **deshacer/rehacer** (`Ctrl+Z`/`Ctrl+Y`), **buscar y
-  reemplazar** (`Ctrl+F`/`Ctrl+H`, `F3`/`Shift+F3`, `Aa` para mayúsculas,
-  contador de coincidencias), `Ctrl+A`, `Ctrl+G` y **menú contextual** al clic
-  derecho con los atajos entre paréntesis.
-- [x] Corregido: `Ctrl+H` dentro de la caja de búsqueda borraba una letra
-  (Tk lo tomaba como retroceso) y, al reabrir la barra, la selección del
-  editor se comía lo escrito en la caja.
-- [x] **`tests_ide.py`**: 36 comprobaciones del editor (deshacer, buscar y
-  reemplazar, menú contextual) y del modal de guardado.
+Es opcional y tiene limitaciones: no soporta `entrada()` ni acceso libre al sistema de archivos, y `importar` solo acepta nombres dentro de `ejemplos/`. Detalles y endpoints en [docs/GUIA-DEL-SERVIDOR-WEB.md](docs/GUIA-DEL-SERVIDOR-WEB.md).
 
----
+### Uso sin instalar
 
-## De la 0.2.0 a la 0.3.0
+Requiere **Python 3 con tkinter**.
 
-- [x] Modal **Guardar / Descartar / Cancelar** al cerrar la ventana, crear un
-  archivo nuevo, abrir otro o cargar un ejemplo con cambios sin guardar (y el
-  título ahora marca `*` mientras haya cambios).
-- [x] Ejemplo de módulos: **`ejemplos\importar.eco`**, que usa
-  `ejemplos\modulos\utilidades.eco`.
-- [x] El IDE web también entiende `importar` (manda el nombre del ejemplo
-  cargado, y solo acepta nombres dentro de `ejemplos/`).
-- [x] `build.bat` detecta Inno Setup 6 y 7, y ya **no miente**: si PyInstaller
-  falla se detiene con un error en vez de firmar un instalador con `.exe` viejos.
-- [x] Tests de módulos en `tests.py` (alias, rutas relativas, ejecución única,
-  módulo inexistente) y tests del depurador del IDE.
+```bash
+py main.py ejemplos/saludo.eco   # ejecutar un archivo
+py main.py                       # REPL
+py ide.py                        # IDE de escritorio
+py tests.py                      # tests del intérprete
+py tests_ide.py                  # tests del editor (abre la ventana)
+py server.py                     # IDE web
+```
 
----
-
-## De la 0.1.0 a la 0.2.0
-
-- [x] Diccionarios con métodos (`persona.nombre`) y listas encadenables.
-- [x] Módulos: `importar "otro.eco" [como alias]`, relativos a quien importa.
-- [x] `mientras` con contador compacto (`i++`) y `para ... en rango(a, b, paso)`.
-- [x] Depuración paso a paso en el IDE.
-- [x] Más funciones de texto y de números (`.mayusculas()`, `.redondear()`…).
-
-Todo eso junto en un solo programa de ejemplo: **`ejemplos\inventario.eco`**,
-y los módulos en **`ejemplos\importar.eco`** (con
-`ejemplos\modulos\utilidades.eco`).
-
----
-
-## Licencia
-
-**GPL-3.0 license** → [LICENSE](LICENSE)
-
-
-
----
-
-# English Version
-
-**eco** is a custom programming language with its own interpreter (lexer -> parser -> evaluator), a **desktop IDE**, an **`eco` CLI** and an **installer**. Its keywords are **in Spanish** — that is the signature of the language.
-
-**Code and documentation:** <https://github.com/alberto2005-coder/eco-lang> ·
-**Download:** [`eco-setup.exe` (v0.4.0)](https://github.com/alberto2005-coder/eco-lang/releases/latest)
-
-[![Release](https://img.shields.io/github/v/release/alberto2005-coder/eco-lang?label=eco)](https://github.com/alberto2005-coder/eco-lang/releases/latest)
-[![License](https://img.shields.io/badge/license-GPL--3.0-7aa2ff)](LICENSE)
+### Estructura del proyecto
 
 ```text
-hola.eco                           ->  eco  (or F5 in the IDE)
+eco-lang/
+├── lexer.py · parser.py · interpreter.py · runtime.py
+├── main.py            # CLI y REPL
+├── ide.py             # IDE de escritorio
+├── server.py          # IDE web
+├── tests.py · tests_ide.py
+├── build.bat · instalador.iss
+├── ejemplos/          # Programas de ejemplo, incluidos módulos
+├── web/index.html     # Interfaz del IDE web
+├── docs/              # Documentación completa
+├── LICENSE
+└── README.md
 ```
+
+### Documentación
+
+| Documento | Contenido |
+|---|---|
+| [docs/REQUISITOS.md](docs/REQUISITOS.md) | Requisitos funcionales y no funcionales, alcance y criterios de aceptación |
+| [docs/INSTALACION.md](docs/INSTALACION.md) | Instalador, uso sin instalar, IDE web y problemas comunes |
+| [docs/GUIA-DEL-LENGUAJE.md](docs/GUIA-DEL-LENGUAJE.md) | Tipos, instrucciones, métodos, gramática EBNF y errores |
+| [docs/GUIA-DEL-IDE.md](docs/GUIA-DEL-IDE.md) | Interfaz, atajos, buscar/reemplazar y depurador |
+| [docs/GUIA-DE-LA-CLI.md](docs/GUIA-DE-LA-CLI.md) | Comandos, códigos de salida, REPL y JSON de `--analyze` |
+| [docs/GUIA-DEL-SERVIDOR-WEB.md](docs/GUIA-DEL-SERVIDOR-WEB.md) | Endpoints, seguridad y límites del IDE web |
+| [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) | Flujo lexer → parser → evaluador y cómo ampliar el lenguaje |
+| [docs/DESARROLLO.md](docs/DESARROLLO.md) | Tests, PyInstaller, Inno Setup y checklist de versión |
+
+### Novedades de la 0.4.0
+
+- Editor con **deshacer/rehacer**, **buscar y reemplazar**, `Ctrl+A`, `Ctrl+G` y menú contextual.
+- Corrección de `Ctrl+H` dentro de la caja de búsqueda y de la selección al reabrir la barra.
+- `tests_ide.py`: 36 comprobaciones del editor y del modal de guardado.
+
+Versiones anteriores: modal Guardar/Descartar/Cancelar, ejemplo de módulos, diccionarios con métodos, `importar` con alias, `mientras` con `i++` y depuración paso a paso.
+
+### Licencia
+
+**GNU General Public License v3.0 (GPL-3.0)** — consulta [LICENSE](LICENSE). Programa libre: puedes redistribuirlo y modificarlo bajo los términos de la GPL publicada por la Free Software Foundation, versión 3 o posterior. © 2026 Alberto Ortiz.
+
+---
+
+## English
+
+### Table of contents
+
+- [Overview](#overview)
+- [Installation](#installation)
+- [Quick start](#quick-start)
+- [The language](#the-language)
+- [Types and expressions](#types-and-expressions)
+- [Dictionaries](#dictionaries)
+- [Modules](#modules)
+- [Built-in functions](#built-in-functions)
+- [Grammar (EBNF)](#grammar-ebnf)
+- [Error messages](#error-messages)
+- [CLI](#cli)
+- [Desktop IDE](#desktop-ide)
+- [Debugger](#debugger)
+- [Web IDE](#web-ide)
+- [Running without installing](#running-without-installing)
+- [Project structure](#project-structure)
+- [Documentation](#documentation)
+- [What's new in 0.4.0](#whats-new-in-040)
+- [License](#license)
+
+### Overview
+
+**eco** is a custom programming language with its own interpreter (**lexer → parser → evaluator**), a **desktop IDE**, an **`eco` CLI**, an optional **web IDE** and a **Windows installer**. Its keywords are **in Spanish** — that is its signature.
+
 ```text
 variable nombre = "Mundo";
 escribe "Hola, ${nombre}!";
 ```
 
+**Download:** [`eco-setup.exe`](https://github.com/alberto2005-coder/eco-lang/releases/latest)
+
 | Piece | File | What it does |
 |---|---|---|
-| Lexer | `lexer.py` | Text -> **tokens** (`variable`, `10`, `+`, `;`...). |
-| Parser | `parser.py` | **Recursive descent** -> **AST**. |
-| Evaluator | `interpreter.py` | Scopes, loops, functions, lists, dictionaries, `${}`, `entrada()`. |
-| Core | `runtime.py` | Bundles the 3 phases for CLI/IDE/server (+ live server). |
-| CLI | `main.py` | `eco file`, `eco`, `eco -e`, `eco --analyze`, `eco --server`. |
-| IDE | `ide.py` | Editor + debugger + console + Tokens/AST (tkinter). |
-| Tests | `tests.py` / `tests_ide.py` | The 3 phases, and the IDE editor. |
-| Docs | `docs/` | Requirements, guides, architecture and development. |
+| Lexer | `lexer.py` | Text → **tokens** (`variable`, `10`, `+`, `;`…) |
+| Parser | `parser.py` | Recursive descent → **AST** |
+| Evaluator | `interpreter.py` | Scopes, loops, functions, lists, dictionaries, `${}`, `entrada()` |
+| Core | `runtime.py` | Bundles the three phases for CLI, IDE and server |
+| CLI | `main.py` | `eco file`, `eco`, `eco -e`, `eco --analyze`, `eco --server` |
+| IDE | `ide.py` | Editor, debugger, console and Tokens/AST views with tkinter |
+| Tests | `tests.py`, `tests_ide.py` | The three phases and the IDE editor |
 
-## Installation
+### Installation
 
 Everything is precompiled: **you do not need Python**.
 
-1. Download **[`eco-setup.exe`](https://github.com/alberto2005-coder/eco-lang/releases/latest)** from the release (or use `dist\eco-setup.exe` if you built it yourself).
-2. Run it (no admin rights required).
-3. Open a **new** terminal:
+1. Download **[`eco-setup.exe`](https://github.com/alberto2005-coder/eco-lang/releases/latest)** (or use `dist\eco-setup.exe` if you built it yourself).
+2. Run it; no admin rights required.
+3. Open a **new** terminal.
+
+The **IDE** appears in the Start Menu as *eco IDE* and `.eco` files open on double-click. To uninstall: *Start Menu → eco → Uninstall eco* (removes the program, PATH entry, shortcuts and file association).
+
+**Build from source**
+
+```bash
+build.bat
+"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" instalador.iss
+```
+
+`build.bat` produces `eco.exe`, `eco-ide.exe` and the installer; it detects Inno Setup 6 and 7. The `.bat` files are for development only.
+
+### Quick start
 
 ```bash
 eco --version                 # 0.4.0
@@ -399,22 +415,11 @@ eco ejemplos\saludo.eco       # run a file
 eco                           # REPL
 ```
 
-The **IDE** appears in the Start Menu (*eco IDE*) and `.eco` files open on double-click.
+In the IDE, `F5` runs the open program.
 
-Uninstall: *Start Menu -> eco -> Uninstall eco* (removes program, PATH, shortcuts and file association).
+### The language
 
-### Build from source
-
-```bash
-build.bat                                              # eco.exe + eco-ide.exe + installer
-"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" instalador.iss   # installer only (6 or 7)
-```
-
-> The `.bat` files are for development only. To use eco, the installer is enough.
-
-## The Language
-
-Reserved keywords:
+**Reserved keywords:**
 
 ```text
 variable  const  escribe  si  sino  mientras  para  en
@@ -423,67 +428,65 @@ verdadero  falso  nulo  y  o  no
 importar  como
 ```
 
-> `y`, `o`, `no`, `en`, `importar` and `como` are reserved: they cannot be used as variable names.
+`y`, `o`, `no`, `en`, `importar` and `como` are reserved: they cannot be used as variable names.
 
-Full language guide with examples, method reference, EBNF grammar and error messages: [**docs/GUIA-DEL-LENGUAJE.md**](docs/GUIA-DEL-LENGUAJE.md).
-
-Types: **number** (`10`, `3.14`) · **text** (`"hola"`) · **boolean** (`verdadero`, `falso`) · **list** (`[1, 2, 3]`) · **dictionary** (`{"a": 1}`) · **null** · **function**
-
-Instructions:
+**Statements:**
 
 ```text
-variable edad = 30;              // declaration (mutable)
-const PI = 3.1416;               // constant (cannot be modified)
+variable edad = 30;              // mutable declaration
+const PI = 3.1416;               // constant, cannot be modified
 edad = edad + 1;                 // assignment
 escribe "year", 2026;            // several values separated by space
 
 si (cond) { ... } sino si (...) { ... } sino { ... }
 mientras (cond) { ... }
 para (variable i = 0; i < 10; i = i + 1) { ... }   // classic
-para (x en [1, 2, 3]) { ... }                       // iterate lists and dictionaries
+para (x en [1, 2, 3]) { ... }                      // lists and dictionaries
 romper;  continuar;
 
 funcion doble(n) { devuelve n * 2; }
 doble(21);
 ```
 
-Expressions:
+### Types and expressions
+
+Types: **number** (`10`, `3.14`), **text** (`"hola"`), **boolean** (`verdadero`, `falso`), **list** (`[1, 2, 3]`), **dictionary** (`{"a": 1}`), **null** and **function**.
 
 ```text
-+ - * / % ^            // ^ is power and right-associative: 2^3^2 = 512
++ - * / % ^            // ^ is power, right-associative: 2^3^2 = 512
 == != < <= > >=
 y  o  no               // short-circuit: falso y (1/0 == 0) does not crash
-lista[0]               // index (negatives count from the end)
+lista[0]               // index; negatives count from the end
 texto[1]               // a single character
 d["clave"]             // dictionary index
 [1, 2] + [3]           // list concatenation
 ```
 
-String interpolation:
+**String interpolation:**
 
 ```text
 variable nombre = "Ana";
 escribe "Hola, ${nombre} tienes ${10 * 3} puntos";   // interpolation
 escribe 'single quotes work too';                    // ' and " are equivalent
-escribe "${persona['nombre']}";                      // single inside ${}
+escribe "${persona['nombre']}";                      // single quotes inside ${}
 escribe "line\nbreak";                               // \n \t \" \\
 escribe "literal \${not interpolated}";              // \$
 ```
 
-Dictionaries:
+### Dictionaries
 
 ```text
 variable persona = {nombre: "Ana", edad: 30, idiomas: ["es", "en"]};
 escribe persona["nombre"];
-persona["pais"] = "Espana";        // creates the key if missing
-escribe longitud(persona);          // 3
-escribe claves(persona);            // ["nombre", "edad", "idiomas", "pais"]
+persona["pais"] = "España";        // creates the key if missing
+escribe longitud(persona);         // 3
+escribe claves(persona);           // ["nombre", "edad", "idiomas", "pais"]
 escribe valores(persona);
 para (k en persona) { escribe "${k}"; }   // iterates keys
 escribe tipo(persona);             // "diccionario"
 ```
 
-Modules:
+### Modules
 
 ```text
 importar "utilidades";                      // relative to the importer
@@ -494,62 +497,182 @@ escribe utilidades.doble(21);  // with its functions
 escribe u.doble(3);            // the alias points to the same module
 ```
 
-Built-in functions:
+- Paths resolve from the importing file, with or without `.eco`.
+- A module runs **once**, even if several programs import it or it is imported both with and without an alias.
+- It exports its `variable`, `const` and `funcion` as dictionary keys: read them with a dot and use everything dictionaries offer (`claves`, `longitud`…).
+- Full example: `ejemplos/importar.eco`, which uses `ejemplos/modulos/utilidades.eco`.
+
+**Reading from the keyboard:**
+
+```text
+variable nombre = entrada("What is your name? ");
+variable edad = numero(entrada("How old are you? "));
+escribe "${nombre} is ${edad} years old";
+```
+
+In the terminal it reads from the console; in the desktop IDE it opens a dialog. The web IDE does not support it: use the terminal or the desktop IDE.
+
+### Built-in functions
 
 | Function | What it does |
 |---|---|
-| `entrada([msg])` | Reads a line from the keyboard. |
-| `longitud(x)` | Number of list/dictionary items or text characters. |
-| `rango(n)` / `rango(a, b)` / `rango(a, b, step)` | List of numbers. |
-| `agregar(lista, v)` | Appends `v` to `lista`. |
-| `claves(d)` / `valores(d)` | Lists with a dictionary's keys or values. |
-| `texto(x)` | Converts to text. |
-| `numero("3,5")` | Converts to number (accepts comma or dot). |
-| `tipo(x)` | `"numero"`, `"texto"`, `"booleano"`, `"lista"`, `"diccionario"`, `"nulo"`, `"funcion"`. |
+| `entrada([msg])` | Reads a line from the keyboard |
+| `longitud(x)` | Number of items or characters |
+| `rango(n)` / `rango(a, b)` / `rango(a, b, step)` | List of numbers |
+| `agregar(lista, v)` | Appends `v` |
+| `claves(d)` / `valores(d)` | Keys or values of a dictionary |
+| `texto(x)` | Converts to text |
+| `numero("3,5")` | Converts to number (comma or dot) |
+| `tipo(x)` | `"número"`, `"texto"`, `"booleano"`, `"lista"`, `"diccionario"`, `"nulo"`, `"función"` |
 
-## Running Without Installing
+### Grammar (EBNF)
 
-```bash
-cd eco
-py main.py ejemplos/saludo.eco   # run a file
-py main.py                       # REPL
-py ide.py                        # desktop IDE
-py tests.py                      # tests
-py tests_ide.py                  # IDE editor tests (opens the window)
-py server.py                     # optional web IDE (http://127.0.0.1:8787)
+```text
+program     := statement*
+statement   := escribe expression ("," expression)* ";"
+             | ("variable" | "const") IDENT "=" expression ";"
+             | IDENT "=" expression ";"
+             | IDENT "[" expression "]" "=" expression ";"
+             | si "(" expression ")" statement (sino statement)?
+             | mientras "(" expression ")" statement
+             | para "(" ("variable" IDENT "=" expression ";" [expression] ";" [step]
+                       | IDENT en expression) ")" statement
+             | funcion IDENT "(" (IDENT ("," IDENT)*)? ")" (block | "=" expression ";")
+             | devuelve [expression] ";" | romper ";" | continuar ";"
+             | block | expression ";"
+
+block       := "{" statement* "}"
+expression  := o
+o           := y (o y)*
+y           := comparison (y comparison)*
+comparison  := term (("=="|"!="|"<"|"<="|">"|">=") term)*
+term        := factor (("+"|"-") factor)*
+factor      := unary (("*"|"/"|"%") unary)*
+unary       := ("-"|no) unary | power
+power       := postfix ("^" unary)?          // right-associative
+postfix     := primary ("[" expression "]" | "(" arguments ")")*
+primary     := NUMBER | STRING | verdadero | falso | nulo | IDENT
+             | "[" (expression ("," expression)*)? "]"
+             | "{" (key ":" expression ("," key ":" expression)*)? "}"
+             | "(" expression ")"
+key         := IDENT | STRING
 ```
 
-## IDE Editor
+### Error messages
+
+Always with line and column, and in the matching phase:
+
+```text
+Error: [línea 3, columna 12] Carácter inesperado '@'
+Error: [línea 5, columna 9] Falta ';' al final de la instrucción (encontrado: EOF)
+Error: [línea 7] 'salario' no está declarada
+Error: [línea 9] 'PI' es una constante y no se puede modificar
+Error: [línea 12] Índice fuera de rango (7) al acceder: la lista tiene 3 elemento(s)
+Error: [línea 15] La clave 'peso' no existe en el diccionario (tiene: "nombre", "edad")
+```
+
+The messages themselves are in Spanish, like the language.
+
+### CLI
+
+| Command | What it does |
+|---|---|
+| `eco file.eco` | Runs a program |
+| `eco` | Interactive REPL |
+| `eco -e "code"` | Evaluates an expression or statement |
+| `eco --analyze file` | Returns the analysis as JSON (tokens and AST) |
+| `eco --server` | Starts the web IDE |
+| `eco --version` | Prints the version |
+
+Exit codes and the JSON schema are documented in [docs/GUIA-DE-LA-CLI.md](docs/GUIA-DE-LA-CLI.md) (Spanish).
+
+### Desktop IDE
 
 | Key | Action |
 |---|---|
 | `Ctrl+Z` / `Ctrl+Y` | Undo / redo |
-| `Ctrl+F` | Find (counter `3/12`, `◀` `▶` to jump, `Aa` match case) |
+| `Ctrl+F` | Find (counter `3/12`, `◀` `▶`, `Aa` for case) |
 | `Ctrl+H` | Find and replace (one or all) |
 | `F3` / `Shift+F3` | Next / previous match |
 | `Ctrl+A` | Select all |
 | `Ctrl+G` | Go to line |
-| `Esc` | Closes the search bar (or stops debugging) |
+| `Esc` | Close the search bar or stop debugging |
 
-Right-clicking the editor opens the standard context menu with shortcuts in parentheses: Undo, Redo, Cut, Copy, Paste, Delete, Select All, Find, Replace and Go to Line.
+`Enter` in the box jumps to the next match and `Shift+Enter` to the previous one; with the bar closed, `F3` reopens it with the last term. Matches are highlighted as you type and the current one uses a different colour. Right-clicking opens the context menu with shortcuts in parentheses.
 
-## IDE Debugger
+### Debugger
 
 | Key | Action |
 |---|---|
-| `F5` | Run the program |
-| `F9` | Debug: stops at the first statement |
-| `F10` | Step: advance one statement |
+| `F5` | Run |
+| `F9` | Debug from the first statement |
+| `F10` | Step |
 | `F11` | Continue to the next breakpoint |
-| `Esc` | Stop debugging |
+| `Esc` | Stop |
 
-Click the **line numbers** to set or remove breakpoints. The **Variables** tab shows values at each step and highlights the line where execution is paused.
+Click the **line numbers** to set or clear breakpoints. The **Variables** tab shows values at each step and the editor highlights the paused line.
 
-## License
+### Web IDE
 
-**GPL-3.0** -> see [LICENSE](LICENSE)
+```bash
+py server.py      # http://127.0.0.1:8787
+```
 
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+It is optional and limited: it does not support `entrada()` or free filesystem access, and `importar` only accepts names inside `ejemplos/`. Details and endpoints in [docs/GUIA-DEL-SERVIDOR-WEB.md](docs/GUIA-DEL-SERVIDOR-WEB.md) (Spanish).
 
-Copyright (C) 2026 Alberto Ortiz
+### Running without installing
 
+Requires **Python 3 with tkinter**.
+
+```bash
+py main.py ejemplos/saludo.eco   # run a file
+py main.py                       # REPL
+py ide.py                        # desktop IDE
+py tests.py                      # interpreter tests
+py tests_ide.py                  # editor tests (opens the window)
+py server.py                     # web IDE
+```
+
+### Project structure
+
+```text
+eco-lang/
+├── lexer.py · parser.py · interpreter.py · runtime.py
+├── main.py            # CLI and REPL
+├── ide.py             # Desktop IDE
+├── server.py          # Web IDE
+├── tests.py · tests_ide.py
+├── build.bat · instalador.iss
+├── ejemplos/          # Sample programs, modules included
+├── web/index.html     # Web IDE interface
+├── docs/              # Full documentation
+├── LICENSE
+└── README.md
+```
+
+### Documentation
+
+| Document | Contents |
+|---|---|
+| [docs/REQUISITOS.md](docs/REQUISITOS.md) | Functional and non-functional requirements, scope and acceptance criteria |
+| [docs/INSTALACION.md](docs/INSTALACION.md) | Installer, running without installing, web IDE and common issues |
+| [docs/GUIA-DEL-LENGUAJE.md](docs/GUIA-DEL-LENGUAJE.md) | Types, statements, methods, EBNF grammar and errors |
+| [docs/GUIA-DEL-IDE.md](docs/GUIA-DEL-IDE.md) | Interface, shortcuts, find/replace and debugger |
+| [docs/GUIA-DE-LA-CLI.md](docs/GUIA-DE-LA-CLI.md) | Commands, exit codes, REPL and the `--analyze` JSON |
+| [docs/GUIA-DEL-SERVIDOR-WEB.md](docs/GUIA-DEL-SERVIDOR-WEB.md) | Endpoints, security and web IDE limits |
+| [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) | Lexer → parser → evaluator flow and how to extend the language |
+| [docs/DESARROLLO.md](docs/DESARROLLO.md) | Tests, PyInstaller, Inno Setup and release checklist |
+
+All documents are written in Spanish.
+
+### What's new in 0.4.0
+
+- Editor with **undo/redo**, **find and replace**, `Ctrl+A`, `Ctrl+G` and a context menu.
+- Fixed `Ctrl+H` inside the search box and the selection behaviour when reopening the bar.
+- `tests_ide.py`: 36 checks for the editor and the save dialog.
+
+Earlier versions added the Save/Discard/Cancel dialog, the modules example, dictionary methods, `importar` with aliases, `mientras` with `i++` and step-by-step debugging.
+
+### License
+
+**GNU General Public License v3.0 (GPL-3.0)** — see [LICENSE](LICENSE). Free software: you may redistribute and modify it under the terms of the GPL as published by the Free Software Foundation, version 3 or later. © 2026 Alberto Ortiz.
